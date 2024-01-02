@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import * as dat from "dat.gui";
 
 // WEBGL 렌더러 인스턴스 생성
 // Three.js가 웹페이지에 공간을 할당하는데 사용하는 도구로 생각하면 됨
@@ -66,12 +67,32 @@ const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
 scene.add(sphereMesh);
 sphereMesh.position.set(-10, 10, 0);
 
+let step = 0;
+
 function animate(time) {
     // 박스 회전
     boxMesh.rotation.x = time / 1000;
     boxMesh.rotation.y = time / 1000;
+
+    step += options.speed;
+    sphereMesh.position.y = 10 * Math.abs(Math.sin(step));
+
     renderer.render(scene, camera);
 }
+
+const gui = new dat.GUI();
+const options = {
+    sphereColor: 0xff0000,
+    wireframe: false,
+    speed: 0.01,
+};
+gui.addColor(options, "sphereColor").onChange((e) => {
+    sphereMaterial.color.set(e);
+});
+gui.add(options, "wireframe").onChange((e) => {
+    sphereMaterial.wireframe = e;
+});
+gui.add(options, "speed", 0, 0.1);
 
 // 장면과 카메라를 렌더러에 추가
 // renderer.render(scene, camera);
