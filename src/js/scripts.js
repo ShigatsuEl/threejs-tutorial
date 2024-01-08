@@ -2,6 +2,9 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
 
+import nebulas from "../img/nebula.jpg";
+import stars from "../img/stars.jpg";
+
 // WEBGL 렌더러 인스턴스 생성
 // Three.js가 웹페이지에 공간을 할당하는데 사용하는 도구로 생각하면 됨
 const renderer = new THREE.WebGLRenderer();
@@ -109,7 +112,20 @@ scene.add(spotLightHelper);
 
 // scene.fog = new THREE.Fog(0xffffff, 1, 200);
 scene.fog = new THREE.FogExp2(0xffffff, 0.01);
-renderer.setClearColor(0xffea00);
+// renderer.setClearColor(0xffea00);
+
+const textureLoader = new THREE.TextureLoader();
+// scene.background = textureLoader.load(stars);
+
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+scene.background = cubeTextureLoader.load([
+    nebulas,
+    nebulas,
+    stars,
+    stars,
+    stars,
+    stars,
+]);
 
 const gui = new dat.GUI();
 const options = {
