@@ -117,6 +117,7 @@ scene.fog = new THREE.FogExp2(0xffffff, 0.01);
 const textureLoader = new THREE.TextureLoader();
 // scene.background = textureLoader.load(stars);
 
+// 배경을 큐브 텍스처로 만듭니다.
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 scene.background = cubeTextureLoader.load([
     nebulas,
@@ -126,6 +127,24 @@ scene.background = cubeTextureLoader.load([
     stars,
     stars,
 ]);
+
+const box2Geometry = new THREE.BoxGeometry(4, 4, 4);
+const box2Material = new THREE.MeshStandardMaterial({
+    // color: 0x00ff00,
+    // map: textureLoader.load(nebulas),
+});
+const box2MultiMaterial = [
+    new THREE.MeshBasicMaterial({ map: textureLoader.load(stars) }),
+    new THREE.MeshBasicMaterial({ map: textureLoader.load(stars) }),
+    new THREE.MeshBasicMaterial({ map: textureLoader.load(nebulas) }),
+    new THREE.MeshBasicMaterial({ map: textureLoader.load(stars) }),
+    new THREE.MeshBasicMaterial({ map: textureLoader.load(nebulas) }),
+    new THREE.MeshBasicMaterial({ map: textureLoader.load(stars) }),
+];
+const box2Mesh = new THREE.Mesh(box2Geometry, box2MultiMaterial);
+scene.add(box2Mesh);
+box2Mesh.position.set(0, 15, 10);
+// box2Mesh.material.map = textureLoader.load(nebulas);
 
 const gui = new dat.GUI();
 const options = {
