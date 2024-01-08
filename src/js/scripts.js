@@ -146,6 +146,18 @@ scene.add(box2Mesh);
 box2Mesh.position.set(0, 15, 10);
 // box2Mesh.material.map = textureLoader.load(nebulas);
 
+// 마우스 움직임에 따라 카메라가 움직이도록 설정
+const mousePositon = new THREE.Vector2();
+window.addEventListener("mousemove", (e) => {
+    mousePositon.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mousePositon.y = -(e.clientY / window.innerHeight) * 2 + 1;
+});
+
+const raycaster = new THREE.Raycaster();
+
+const sphereId = sphereMesh.id;
+box2Mesh.name = "theBox";
+
 const gui = new dat.GUI();
 const options = {
     sphereColor: 0xff0000,
@@ -178,6 +190,21 @@ function animate(time) {
     spotLight.penumbra = options.penumbra;
     spotLight.intensity = options.intensity;
     spotLightHelper.update();
+
+    // 마우스 움직임에 따라 카메라가 움직이도록 설정
+    raycaster.setFromCamera(mousePositon, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+    console.log(intersects);
+
+    for (let i = 0; i < intersects.length; i++) {
+        if (intersects[i].object.id === sphereId) {
+            intersects[i].object.material.color.set(0xff0000);
+        }
+        if (intersects[i].object.name === "theBox") {
+            intersects[i].object.rotation.x = time / 1000;
+            intersects[i].object.rotation.y = time / 1000;
+        }
+    }
 
     renderer.render(scene, camera);
 }
