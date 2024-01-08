@@ -158,6 +158,22 @@ const raycaster = new THREE.Raycaster();
 const sphereId = sphereMesh.id;
 box2Mesh.name = "theBox";
 
+// 평면 추가
+const plane2Geometry = new THREE.PlaneGeometry(10, 10, 10, 10);
+const plane2Material = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    side: THREE.DoubleSide,
+});
+const plane2Mesh = new THREE.Mesh(plane2Geometry, plane2Material);
+scene.add(plane2Mesh);
+plane2Mesh.position.set(10, 10, 15);
+
+plane2Mesh.geometry.attributes.position.array[0] -= 10 * Math.random();
+plane2Mesh.geometry.attributes.position.array[1] -= 10 * Math.random();
+plane2Mesh.geometry.attributes.position.array[2] -= 10 * Math.random();
+const lastPointZ = plane2Mesh.geometry.attributes.position.array.length - 1;
+plane2Mesh.geometry.attributes.position.array[lastPointZ] -= 10 * Math.random();
+
 const gui = new dat.GUI();
 const options = {
     sphereColor: 0xff0000,
@@ -194,7 +210,7 @@ function animate(time) {
     // 마우스 움직임에 따라 카메라가 움직이도록 설정
     raycaster.setFromCamera(mousePositon, camera);
     const intersects = raycaster.intersectObjects(scene.children);
-    console.log(intersects);
+    // console.log(intersects);
 
     for (let i = 0; i < intersects.length; i++) {
         if (intersects[i].object.id === sphereId) {
@@ -205,6 +221,13 @@ function animate(time) {
             intersects[i].object.rotation.y = time / 1000;
         }
     }
+
+    plane2Mesh.geometry.attributes.position.array[0] = 10 * Math.random();
+    plane2Mesh.geometry.attributes.position.array[1] = 10 * Math.random();
+    plane2Mesh.geometry.attributes.position.array[2] = 10 * Math.random();
+    plane2Mesh.geometry.attributes.position.array[lastPointZ] =
+        10 * Math.random();
+    plane2Mesh.geometry.attributes.position.needsUpdate = true;
 
     renderer.render(scene, camera);
 }
