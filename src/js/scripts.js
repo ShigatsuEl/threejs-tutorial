@@ -49,7 +49,7 @@ scene.add(boxMesh);
 
 // 평면 추가
 const planeGeometry = new THREE.PlaneGeometry(30, 30);
-const planeMaterial = new THREE.MeshBasicMaterial({
+const planeMaterial = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     side: THREE.DoubleSide,
 });
@@ -59,7 +59,7 @@ planeMesh.rotation.x = -0.5 * Math.PI;
 
 // 구 추가
 const sphereGeometry = new THREE.SphereGeometry(4, 50, 50);
-const sphereMaterial = new THREE.MeshBasicMaterial({
+const sphereMaterial = new THREE.MeshStandardMaterial({
     color: 0x0000ff,
     wireframe: false,
 });
@@ -93,6 +93,19 @@ gui.add(options, "wireframe").onChange((e) => {
     sphereMaterial.wireframe = e;
 });
 gui.add(options, "speed", 0, 0.1);
+
+// 모든 객체에 동일하게 빛을 적용하여 주변 광을 시뮬레이트합니다.
+const ambientLight = new THREE.AmbientLight(0x333333);
+scene.add(ambientLight);
+
+// 태양과 같은 빛을 시뮬레이트하며, 빛이 특정 방향에서 오는 것처럼 보입니다.
+const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+scene.add(directionalLight);
+directionalLight.position.set(-30, 50, 0);
+
+// 빛의 도우미를 만들어서 장면에 추가합니다.
+const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+scene.add(dLightHelper);
 
 // 장면과 카메라를 렌더러에 추가
 // renderer.render(scene, camera);
