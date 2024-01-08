@@ -6,6 +6,9 @@ import * as dat from "dat.gui";
 // Three.js가 웹페이지에 공간을 할당하는데 사용하는 도구로 생각하면 됨
 const renderer = new THREE.WebGLRenderer();
 
+// 렌더러에 그림자 효과를 추가
+renderer.shadowMap.enabled = true;
+
 // 렌더러의 크기 설정
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -56,6 +59,7 @@ const planeMaterial = new THREE.MeshStandardMaterial({
 const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
 scene.add(planeMesh);
 planeMesh.rotation.x = -0.5 * Math.PI;
+planeMesh.receiveShadow = true; // 그림자 효과를 받도록 설정
 
 // 구 추가
 const sphereGeometry = new THREE.SphereGeometry(4, 50, 50);
@@ -66,6 +70,7 @@ const sphereMaterial = new THREE.MeshStandardMaterial({
 const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
 scene.add(sphereMesh);
 sphereMesh.position.set(-10, 10, 0);
+sphereMesh.castShadow = true; // 그림자 효과를 만들도록 설정
 
 let step = 0;
 
@@ -102,10 +107,19 @@ scene.add(ambientLight);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
 scene.add(directionalLight);
 directionalLight.position.set(-30, 50, 0);
+directionalLight.castShadow = true; // 그림자 효과를 만들도록 설정
+directionalLight.shadow.camera.bottom = -12;
 
 // 빛의 도우미를 만들어서 장면에 추가합니다.
-const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
-scene.add(dLightHelper);
+const directionalLightHelper = new THREE.DirectionalLightHelper(
+    directionalLight,
+    5
+);
+scene.add(directionalLightHelper);
+
+// 카메라의 도우미를 만들어서 장면에 추가합니다.
+const cameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+scene.add(cameraHelper);
 
 // 장면과 카메라를 렌더러에 추가
 // renderer.render(scene, camera);
