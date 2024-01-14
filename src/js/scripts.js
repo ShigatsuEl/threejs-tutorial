@@ -272,3 +272,9 @@ function animate(time) {
 // 장면과 카메라를 렌더러에 추가
 // renderer.render(scene, camera);
 renderer.setAnimationLoop(animate);
+
+window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
