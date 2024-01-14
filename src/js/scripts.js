@@ -1,9 +1,12 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 import nebulas from "../img/nebula.jpg";
 import stars from "../img/stars.jpg";
+
+const monkeyUrl = new URL("../assets/monkey.glb", import.meta.url);
 
 // WEBGL 렌더러 인스턴스 생성
 // Three.js가 웹페이지에 공간을 할당하는데 사용하는 도구로 생각하면 됨
@@ -192,6 +195,21 @@ const sphere2Material = new THREE.ShaderMaterial({
 const sphere2Mesh = new THREE.Mesh(sphere2Geometry, sphere2Material);
 scene.add(sphere2Mesh);
 sphere2Mesh.position.set(-5, 10, 10);
+
+const assetLoader = new GLTFLoader();
+
+assetLoader.load(
+    monkeyUrl.href,
+    (gltf) => {
+        const model = gltf.scene;
+        scene.add(model);
+        model.position.set(-12, 4, 10);
+    },
+    undefined,
+    (error) => {
+        console.error(error);
+    }
+);
 
 const gui = new dat.GUI();
 const options = {
