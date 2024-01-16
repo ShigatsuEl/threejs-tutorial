@@ -6,8 +6,8 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
-    0.1,
-    1000
+    0.1, // 카메라가 볼 수 있는 최소 거리
+    1000 // 카메라가 볼 수 있는 최대 거리
 );
 camera.position.z = 2;
 
