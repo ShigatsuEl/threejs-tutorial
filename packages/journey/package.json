@@ -1,0 +1,21 @@
+{
+    "name": "journey",
+    "version": "0.0.0",
+    "description": "",
+    "keywords": [],
+    "author": "ShigatsuEl <shigatsu970704@gmail.com>",
+    "license": "ISC",
+    "main": "script.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ShigatsuEl/threejs-tutorial.git"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "bugs": {
+        "url": "https://github.com/ShigatsuEl/threejs-tutorial/issues"
+    },
+    "homepage": "https://github.com/ShigatsuEl/threejs-tutorial#readme"
+}
