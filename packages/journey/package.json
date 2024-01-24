@@ -17,5 +17,8 @@
     "bugs": {
         "url": "https://github.com/ShigatsuEl/threejs-tutorial/issues"
     },
-    "homepage": "https://github.com/ShigatsuEl/threejs-tutorial#readme"
+    "homepage": "https://github.com/ShigatsuEl/threejs-tutorial#readme",
+    "dependencies": {
+        "gsap": "3.12"
+    }
 }
